@@ -75,7 +75,11 @@ export default class Game extends Component {
     if ( result ) {
       status = `Winner: ${result.winner}`;
     } else {
-      status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
+      if ( current.squares.includes(null) ) {
+        status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
+      } else {
+        status = 'Draw'
+      }
     }
 
     return (
@@ -83,7 +87,7 @@ export default class Game extends Component {
         left={
           <HistorySidebar
             history={history.slice(0, history.length - 1)}
-            reversed={this.state.sortRecent ? true : false}
+            reversed={this.state.sortRecent}
             onClick={(i) => this.jumpTo(i)} />
         }
         right={
@@ -92,11 +96,12 @@ export default class Game extends Component {
             <Board
               squares={current.squares}
               winningLine={this.state.winningLine}
-              onClick={(i) => this.handleClick(i)}/>
+              onClick={(i) => this.handleClick(i)} />
             <Toggle
               onClick={() => this.handleToggle()}
               sortRecent={this.state.sortRecent} />
-            <Restart onClick={() => this.handleRestart()} />
+            <Restart
+              onClick={() => this.handleRestart()} />
           </main>
         } />
     );
