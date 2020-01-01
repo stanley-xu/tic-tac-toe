@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Splitpane from './splitpane';
 import Board from './board';
 import HistorySidebar from './historysidebar';
-import { Toggle, Restart } from './controls'
+import { Toggle, Restart, PlayMode } from './controls'
 
 export default class Game extends Component {
   constructor(props) {
@@ -15,6 +15,7 @@ export default class Game extends Component {
       stepNum: 0,
       sortRecent: true,
       winningLine: null,
+      playMode: 'ai',
     }
   }
   
@@ -66,6 +67,10 @@ export default class Game extends Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({ playMode: event.target.value });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNum];
@@ -102,6 +107,9 @@ export default class Game extends Component {
               sortRecent={this.state.sortRecent} />
             <Restart
               onClick={() => this.handleRestart()} />
+            <PlayMode 
+              value={this.state.playMode}
+              onChange={(e) => this.handleChange(e)} />
           </main>
         } />
     );
