@@ -8,6 +8,7 @@ export default class Board extends Component {
   renderSquare(i) {
     return (
     <Square
+      previewStyle={this.props.previewStyle}
       value={this.props.squares[i]}
       onClick={() => this.props.onClick(i)}
     />
@@ -15,10 +16,8 @@ export default class Board extends Component {
   }
 
   render() {
-    console.log(`Rendering board with squares`, this.props.squares);
-    
     return (
-      <div>
+      <div className='board'>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}

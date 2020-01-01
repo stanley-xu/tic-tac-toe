@@ -1,10 +1,32 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  font: 24px "Century Gothic", Futura, sans-serif;
+  margin: 10px auto;
 }
 
-ol, ul {
-  padding-left: 30px;
+.pane-container {
+  display: flex;
+}
+
+.pane-left {
+  flex: 0 0 auto;
+  width: 25%
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar {
+  margin: 2rem auto;
+}
+
+.pane-right {
+  flex: 0 1 auto;
+  width: 75%;
 }
 
 .board-row:after {
@@ -13,39 +35,45 @@ ol, ul {
   display: table;
 }
 
-.status {
-  margin-bottom: 10px;
+.main {
+  margin: 2rem auto;
 }
 
-.square {
+/* Responsive grid vs 2 Fixed rules
+Goal: a 'preview' sized grid and a 'main' grid
+
+You can have a response grid: https://stackoverflow.com/questions/20456694/grid-of-responsive-squares
+
+But the problem is scaling text ('O' and 'X') in response as well
+*/
+
+.square, .preview {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
-  padding: 0;
   text-align: center;
+}
+
+.square {
+  font-size: 48px;
+  height: 68px;
+  width: 68px;
+}
+
+.preview {
+  font-size: 24px;
+  height: 34px;
   width: 34px;
 }
 
-.square:focus {
+.square:focus, .preview:focus {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
+.kbd-navigation .square:focus .preview:focus {
   background: #ddd;
 }
-
-.game {
-  display: flex;
-  flex-direction: row;
-}
-
-.game-info {
-  margin-left: 20px;
-}
-

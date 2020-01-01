@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import Splitpane from './splitpane';
 import Board from './board';
+import HistorySidebar from './historysidebar';
 
 export default class Game extends Component {
   constructor(props) {
@@ -43,30 +45,28 @@ export default class Game extends Component {
     const current = history[this.state.stepNum];
     const winner = checkWinner(current.squares);
 
-    const moves = history.map((prevState, moveNo) => {
-      return (
-        <Board
-          key={moveNo} squares={prevState.squares}
-          onClick={() => this.jumpTo(moveNo)}/>
-      );
-    });
-
     let status;
-    if ( winner === null )
-      status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
-    else
+    if ( winner ) {
       status = `Winner: ${winner}`;
+    } else {
+      status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
+    }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
-        </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
-        </div>
-      </div>
+      <Splitpane
+        left={
+          <HistorySidebar
+            history={history.slice(0, history.length - 1)}
+            onClick={(i) => this.jumpTo(i)} />
+        }
+        right={
+          <main className='main'>
+            <div className='status'>{status}</div>
+            <Board
+              squares={current.squares}
+              onClick={(i) => this.handleClick(i)}/>
+          </main>
+        } />
     );
   }
 }
