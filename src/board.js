@@ -7,32 +7,31 @@ export default class Board extends Component {
   // - pass "accessor" to modify parent `Board` state: `handleClick`
   renderSquare(i) {
     return (
-    <Square
-      previewStyle={this.props.previewStyle}
-      value={this.props.squares[i]}
-      onClick={() => this.props.onClick(i)}
-    />
+      <Square key={i}
+        win={this.props.winningLine?.includes(i) ? 'win' : ''}
+        previewStyle={this.props.previewStyle}
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
+      />
     );
   }
 
   render() {
+    let rows = [];
+    
+    for ( let i = 0; i < 3; i += 1 ) {
+      let children = [];
+      for ( let j = i * 3; j < i * 3 + 3; j += 1 ) {
+        children.push(this.renderSquare(j));
+      }
+      rows.push(
+        <div key={i} className='board-row'>{children}</div>
+      );
+    }
+
     return (
       <div className='board'>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {rows}
       </div>
     );
   }

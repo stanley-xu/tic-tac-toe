@@ -70,6 +70,10 @@ But the problem is scaling text ('O' and 'X') in response as well
   width: 34px;
 }
 
+.win {
+  border: 2px solid green;
+}
+
 .square:focus, .preview:focus {
   outline: none;
 }
