@@ -7,7 +7,7 @@ export default class Board extends Component {
   // - pass "accessor" to modify parent `Board` state: `handleClick`
   renderSquare(i) {
     return (
-      <Square key={i}
+      <Square key={i} id={`sq-${i}`}
         win={this.props.winningLine?.includes(i) ? 'win' : ''}
         previewStyle={this.props.previewStyle}
         value={this.props.squares[i]}

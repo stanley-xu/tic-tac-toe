@@ -6,7 +6,7 @@ export default function Square(props) {
   optStyles += props.win ? props.win : '';
 
   return (
-    <button
+    <button id={props.id}
       className={`square ${optStyles}`}
       onClick={() => props.onClick()}>
       {props.value}

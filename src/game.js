@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { isTerminal, checkWinner, AIPlayer } from './gameplay';
 import Splitpane from './splitpane';
 import Board from './board';
 import HistorySidebar from './historysidebar';
 import { Toggle, Restart, PlayMode } from './controls'
+
+export const GAME_MODE =  { ai: 'ai', human: 'human' };
 
 export default class Game extends Component {
   constructor(props) {
@@ -15,10 +18,10 @@ export default class Game extends Component {
       stepNum: 0,
       sortRecent: true,
       winningLine: null,
-      playMode: 'ai',
+      playMode: GAME_MODE.ai,
     }
   }
-  
+
   handleClick(idx) {
     // take history only until the specified step
     const history = this.state.history.slice(0, this.state.stepNum + 1);
@@ -40,6 +43,22 @@ export default class Game extends Component {
       stepNum: history.length,
       winningLine: line,
     });
+
+    // make AI moves
+    if ( this.state.playMode === GAME_MODE.ai ) {
+      if ( line ) return; // AI has lost
+      const bestMove = AIPlayer.search(squares).move;
+      
+      // clear any existing main board styling
+      const elems = document.querySelectorAll(`.square:not(.preview)`);
+      elems.forEach(s => s.className = 'square');
+
+      if ( bestMove == null ) return;
+      // highlight recommended move
+      const sq = document.querySelector(`#sq-${bestMove}:not(.preview)`);
+      sq.className += ' recommended';
+      // TODO: have the AI make the move
+    }
   }
 
   jumpTo(step) {
@@ -74,17 +93,13 @@ export default class Game extends Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNum];
-    const result = checkWinner(current.squares);
 
     let status;
-    if ( result ) {
-      status = `Winner: ${result.winner}`;
+    if ( isTerminal(current.squares) ) {
+      const result = checkWinner(current.squares);
+      status = result ? `Winner: ${result.winner}` : 'Draw';
     } else {
-      if ( current.squares.includes(null) ) {
-        status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
-      } else {
-        status = 'Draw'
-      }
+      status = `Next player: ${this.state.playerIsX ? 'X' : 'O'}`;
     }
 
     return (
@@ -114,27 +129,4 @@ export default class Game extends Component {
         } />
     );
   }
-}
-
-function checkWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for ( let sol of lines ) {
-    const [a, b, c] = sol;
-    if ( squares[a] && squares[a] === squares[b] && squares[a] === squares[c] ) {
-      return {
-        winner: squares[a],
-        line: [a, b, c],
-      };
-    }
-  }
-  return null;
 }

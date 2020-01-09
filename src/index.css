@@ -74,6 +74,10 @@ But the problem is scaling text ('O' and 'X') in response as well
   border: 2px solid green;
 }
 
+.recommended {
+  border: 2px solid blue;
+}
+
 .square:focus, .preview:focus {
   outline: none;
 }
