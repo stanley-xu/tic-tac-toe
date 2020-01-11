@@ -1,5 +1,5 @@
 import React from 'react';
-import { GAME_MODE } from './game';
+import { PLAY_MODE } from './gameplay';
 
 export function Toggle(props) {
   return (
@@ -20,8 +20,8 @@ export function Restart(props) {
 export function PlayMode(props) {
   return (
     <select value={props.value} onChange={props.onChange}>
-      <option value={GAME_MODE.ai}>AI player</option>
-      <option value={GAME_MODE.human}>Human player</option>
+      <option value={PLAY_MODE.ai}>AI player</option>
+      <option value={PLAY_MODE.human}>Human player</option>
     </select>
   )
 }

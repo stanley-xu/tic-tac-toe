@@ -7,14 +7,12 @@
 *  - Transition model will slice whenever possible for immutability
  */
 
+const PLAYERS = { ai: 'O', human: 'X' };
+const PLAY_MODE = { ai: 'ai', human: 'human' };
 const SEARCH_MODE = { max: 'MAX', min: 'MIN' };
 
 const AIPlayer = {
-  id: 'O',  // assumption
-  search: (squares) => {
-    return minimax(squares, SEARCH_MODE.max);
-    // TODO
-  },
+  search: (squares) => minimax(squares, SEARCH_MODE.max),
 };
 
 // note: returns util of player MAX
@@ -24,10 +22,10 @@ function utility(state) {
   
   let score = 0;
   if ( result === null ) score = 1; // if terminal => draw
-  else if ( result.winner === AIPlayer.id ) score = 1;
+  else if ( result.winner === PLAYERS.ai ) score = 1;
   else score = -1;
 
-  return score * speedBonus;
+  return score * (1 + speedBonus);
 }  
 
 function isTerminal(state) {
@@ -54,8 +52,7 @@ function minimax(state, mode) {
     .filter(v => v !== -1);
 
   moves.forEach(move => {
-    const playerId = mode === SEARCH_MODE.max ?
-      AIPlayer.id : 'X';
+    const playerId = mode === SEARCH_MODE.max ? PLAYERS.ai : PLAYERS.human;
     const nextState = transition(state, move, playerId);
     const moveUtil = mode === SEARCH_MODE.max ?
       minimax(nextState, SEARCH_MODE.min).util
@@ -79,14 +76,8 @@ function minimax(state, mode) {
 
 function checkWinner(squares) {
   const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
+    [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
   ];
   for ( let sol of lines ) {
     const [a, b, c] = sol;
@@ -100,4 +91,4 @@ function checkWinner(squares) {
   return null;
 }
 
-export { isTerminal, checkWinner, AIPlayer }
+export { PLAY_MODE, isTerminal, checkWinner, AIPlayer }
