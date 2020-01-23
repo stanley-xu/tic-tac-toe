@@ -1,15 +1,13 @@
 import React from 'react';
 import Board from './board';
 
-// The sidebar handles jumping and rendering the histories
-//  in the proper order
-// - The jump function passed via props works only with the original indicies orders
+// Note: the jump function passed via props works only with the original indicies orders
 export default function HistorySidebar(props) {
   const history = props.reversed ?
     props.history.reverse() : props.history;
 
   return (
-    <ul className='sidebar'>
+    <ul className='sidebar' data-testid='history'>
       {
         history.map((prevState, moveNo) => {
           const jumpIdx = props.reversed ?

@@ -26,7 +26,7 @@ function utility(state) {
   else score = -1;
 
   return score * (1 + speedBonus);
-}  
+}
 
 function isTerminal(state) {
   return !state.includes(null) || checkWinner(state);
@@ -39,6 +39,7 @@ function transition(state, move, player) {
 }
 
 function minimax(state, mode) {
+  // base case
   if ( isTerminal(state) ) {
     return {
       move: null,
@@ -46,18 +47,24 @@ function minimax(state, mode) {
     };
   }
   
-  let bestChoice = { move: null, util: null };
+  // consider only blank squares to be valid moves
   const moves = state
-    .map((square, idx) => ( square == null ) ? idx : -1)
-    .filter(v => v !== -1);
-
+  .map((square, idx) => ( square == null ) ? idx : -1)
+  .filter(v => v !== -1);
+  
+  // find optimal minimax decision at the root
+  let bestChoice = { move: null, util: null };
   moves.forEach(move => {
+    // determine transition given move and player id
     const playerId = mode === SEARCH_MODE.max ? PLAYERS.ai : PLAYERS.human;
     const nextState = transition(state, move, playerId);
+
+    // determine move utility via recursive minimax calls
     const moveUtil = mode === SEARCH_MODE.max ?
       minimax(nextState, SEARCH_MODE.min).util
       : minimax(nextState, SEARCH_MODE.max).util;
 
+    // maintain the most optimal choice based on utility WRT the player in question
     let foundBetterChoice = false;
     if ( mode === SEARCH_MODE.max ) {
       foundBetterChoice = bestChoice.util < moveUtil;
@@ -66,8 +73,8 @@ function minimax(state, mode) {
     }
 
     if ( bestChoice.util == null || foundBetterChoice ) {
-        bestChoice.util = moveUtil;
-        bestChoice.move = move;
+      bestChoice.util = moveUtil;
+      bestChoice.move = move;
     }
   });
 

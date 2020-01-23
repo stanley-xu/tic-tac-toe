@@ -7,17 +7,13 @@ import Board from './board';
 import HistorySidebar from './historysidebar';
 import { Toggle, Restart, PlayMode } from './controls'
 
-// TODO: write tests--this one tests a trap setup by X
-// const test = [
-//   'O', 'O', 'X', 'X', null, 'O', null, null, 'X'
-// ];
-
 export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null),
+        squares: props.initBoard ? props.initBoard
+          : Array(9).fill(null),
       }],
       playerIsX: true,
       stepNum: 0,
