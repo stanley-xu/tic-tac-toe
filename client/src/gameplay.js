@@ -1,7 +1,7 @@
 /**
  * Minimax search conventions
  * - Start with MAX player
- * - Utilities: win = 1, draw = 0, lose = -1
+ * - Utilities: are one of {-1, 0, 1}
  * - State: array of squares (array of strings)
  * - Move: indicies of square array (number)
 *  - Transition model will slice whenever possible for immutability

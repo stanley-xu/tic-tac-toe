@@ -1,12 +1,9 @@
 import React from 'react'
-import { render, fireEvent, waitForElement, getByText } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
+import { boards } from './utils';
 
 import Game from './game'
-
-const boards = {
-  xTrap: [ 'O', 'O', 'X', 'X', null, 'O', null, null, 'X' ]
-};
 
 test('smoke test', async () => {
   const { getByText } = render(<Game />);
@@ -87,4 +84,4 @@ test('game ends properly', async () => {
 
   fireEvent.click(blanks[0]);
   expect(getByText(/win|draw/i)).toBeVisible();
-})
+});
