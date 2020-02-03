@@ -1,0 +1,24 @@
+{
+  "name": "mmserver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Matchmaking server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanley-xu/tic-tac-toe.git"
+  },
+  "author": "Stanley Xu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanley-xu/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/stanley-xu/tic-tac-toe#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
